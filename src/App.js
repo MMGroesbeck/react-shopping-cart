@@ -1,41 +1,55 @@
-import React, { useState, createContext } from 'react';
-import { Route } from 'react-router-dom';
-import data from './data';
+import React, { useState, useContext } from "react";
+import { Route } from "react-router-dom";
+import data from "./data";
 
 import { ProductContext } from "./contexts/ProductContext";
+import { CartContext } from "./contexts/CartContext";
 
 // Components
-import Navigation from './components/Navigation';
-import Products from './components/Products';
-import ShoppingCart from './components/ShoppingCart';
+import Navigation from "./components/Navigation";
+import Products from "./components/Products";
+import ShoppingCart from "./components/ShoppingCart";
 
 function App() {
-	const [products] = useState(data);
-	const [cart, setCart] = useState([]);
-	const addItem = item => {
-		// add the given item to the cart
-		setCart([...cart, item]);
-	};
-	const removeItem = item => {
-		setCart(cart.filter(i => i.id !== item.id));
-	}
+  const [products] = useState(data);
+  const [cart, setCart] = useState([]);
+  const addItem = item => {
+	  console.log("Adding ", item);
+    // add the given item to the cart
+	setCart([...cart, item]);
+	console.log("New cart: ", cart);
+  };
+  const removeItem = item => {
+    setCart(cart.filter(i => i.id !== item.id));
+  };
+  const [productValues, setProductValues] = useState({
+    products: products,
+    addItem: addItem
+  });
+  const [cartValues, setCartValues] = useState({
+    cart: cart,
+    removeItem: removeItem
+  });
+  console.log("In App: ", products);
 
-	return (
-		<div className="App">
-			<ProductContext.Provider value={products, cart, addItem, removeItem}>
-			<Navigation cart={cart} />
+  return (
+    <div className="App">
+      <Navigation cart={cart} />
 
-			{/* Routes */}
-			<Route exact path="/">
-				<Products />
-			</Route>
+      {/* Routes */}
+      <ProductContext.Provider value={productValues}>
+        <Route exact path="/">
+          <Products />
+        </Route>
+      </ProductContext.Provider>
 
-			<Route path="/cart">
-				<ShoppingCart />
-			</Route>
-			</ProductContext.Provider>
-		</div>
-	);
+      <CartContext.Provider value={cartValues}>
+        <Route path="/cart">
+          <ShoppingCart />
+        </Route>
+      </CartContext.Provider>
+    </div>
+  );
 }
 
 export default App;

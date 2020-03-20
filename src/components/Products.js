@@ -5,19 +5,21 @@ import { ProductContext } from "../contexts/ProductContext";
 // Components
 import Product from './Product';
 
-const Products = props => {
+const Products = () => {
 	const { products, addItem } = useContext(ProductContext);
 	return (
 		<div className="products-container">
 			{products.map(product => (
-				<Product
+				<><Product
 					key={product.id}
 					product={product}
-					addItem={addItem(product)}
+					addItem={addItem}
 				/>
+				<p>{product.title}</p>
+				</>
 			))}
 		</div>
 	);
 };
 
-export default Products;
+export default Products; 
