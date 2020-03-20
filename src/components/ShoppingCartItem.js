@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { CartContext } from "../contexts/CartContext";
 
 const Item = props => {
+	const { removeItem } = useContext(CartContext);
 	const handleRemove = e => {
 		e.preventDefault();
-		props.removeItem({id: props.id});
+		removeItem({id: props.id});
 	}
 	return (
 		<div className="shopping-cart_item">
