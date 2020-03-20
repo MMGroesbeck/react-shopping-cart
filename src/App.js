@@ -22,14 +22,6 @@ function App() {
   const removeItem = item => {
     setCart(cart.filter(i => i.id !== item.id));
   };
-  const [productValues, setProductValues] = useState({
-    products: products,
-    addItem: addItem
-  });
-  const [cartValues, setCartValues] = useState({
-    cart: cart,
-    removeItem: removeItem
-  });
   console.log("In App: ", products);
 
   return (
@@ -37,13 +29,13 @@ function App() {
       <Navigation cart={cart} />
 
       {/* Routes */}
-      <ProductContext.Provider value={productValues}>
+      <ProductContext.Provider value={{ products, addItem }}>
         <Route exact path="/">
           <Products />
         </Route>
       </ProductContext.Provider>
 
-      <CartContext.Provider value={cartValues}>
+      <CartContext.Provider value={{ cart, removeItem }}>
         <Route path="/cart">
           <ShoppingCart />
         </Route>

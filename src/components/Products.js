@@ -15,7 +15,6 @@ const Products = () => {
 					product={product}
 					addItem={addItem}
 				/>
-				<p>{product.title}</p>
 				</>
 			))}
 		</div>
